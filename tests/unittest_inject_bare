@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export QMAILQUEUE=$(pwd)/unittest_inject_queue
+echo 'To: testuser' | ../qmail-inject -a

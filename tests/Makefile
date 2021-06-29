@@ -9,15 +9,22 @@ default: it
 
 .PHONY: clean default it test
 
-TESTBINS = unittest_stralloc unittest_blast unittest_prioq
+TESTBINS = unittest_blast \
+		unittest_prioq \
+		unittest_stralloc
+
+TESTHELPERS = unittest_inject_queue
+
+FIXEDTESTS = unittest_inject_bare \
+		unittest_inject_fqdn \
 
 clean:
-	rm -f $(TESTBINS) *.o blast.c
+	rm -f $(TESTBINS) $(TESTHELPERS) *.o blast.c
 
-it: $(TESTBINS)
+it: $(TESTBINS) $(TESTHELPERS)
 
 test: it
-	@for tbin in $(TESTBINS); do \
+	@for tbin in $(TESTBINS) $(FIXEDTESTS); do \
 		./$$tbin || exit 1 ; \
 	done
 
@@ -62,3 +69,8 @@ unittest_prioq.o: \
 ../compile unittest_prioq.c
 	../compile unittest_prioq.c -I.. \
 	`pkg-config --cflags check`
+
+unittest_inject_queue: unittest_inject.tmpl
+	sed "s{MEHOST{$$(cat `head -n 1 ../conf-qmail`/control/me){" \
+	< unittest_inject.tmpl > unittest_inject_queue
+	chmod 755 unittest_inject_queue
