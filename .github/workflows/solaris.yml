@@ -40,6 +40,9 @@ jobs:
         envs: 'CFLAGS NROFF'
         prepare: pkgutil -y -i libcheck_dev gcc4core pkgconfig
         run: |
+          echo /tmp/qmail-install > conf-qmail
+          mkdir -p /tmp/qmail-install/control
+          echo solaris.github.example.com > /tmp/qmail-install/control/me
           echo "gcc -O2 -pipe ${CFLAGS}" > conf-cc
           echo "gcc -s" > conf-ld
           make it man NROFF=${NROFF}

@@ -75,7 +75,11 @@ jobs:
         OS: ${{ matrix.host }}
 
     - name: configure
-      run: echo "${CC} -O2 -fPIC -Wall -Wshadow -Werror=implicit-function-declaration -Wimplicit-fallthrough ${CFLAGS}" > conf-cc
+      run: |
+        echo "${CC} -O2 -fPIC -Wall -Wshadow -Werror=implicit-function-declaration -Wimplicit-fallthrough ${CFLAGS}" > conf-cc
+        echo /tmp/qmail-install > conf-qmail
+        mkdir -p /tmp/qmail-install/control
+        echo github.example.com > /tmp/qmail-install/control/me
       env:
         CC: ${{ matrix.config.cc }}
         CFLAGS: ${{ matrix.config.cflags }}

@@ -18,7 +18,10 @@ task:
   compile_script:
     - make ${MAKE_FLAGS} it man
   test_script:
+    - mkdir -p /var/qmail/control
+    - echo cirrusci.example.com > /var/qmail/control/me
     - make ${MAKE_FLAGS} test
+    - rm -rf /var/qmail
   install_script:
     - env DESTDIR=/tmp/qmail make package
     - make package
