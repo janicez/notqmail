@@ -74,4 +74,5 @@ unittest_inject_queue: unittest_inject.tmpl
 	export MEHOST=`head -n 1 ../conf-qmail` ; \
 	sed "s{MEHOST{`cat $${MEHOST}/control/me`{" \
 	< unittest_inject.tmpl > unittest_inject_queue
+	cat unittest_inject_queue
 	chmod 755 unittest_inject_queue
