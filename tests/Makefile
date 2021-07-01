@@ -71,6 +71,7 @@ unittest_prioq.o: \
 	`pkg-config --cflags check`
 
 unittest_inject_queue: unittest_inject.tmpl
-	sed "s{MEHOST{$$(cat `head -n 1 ../conf-qmail`/control/me){" \
+	export MEHOST=`head -n 1 ../conf-qmail` ; \
+	sed "s{MEHOST{`cat $${MEHOST}/control/me`{" \
 	< unittest_inject.tmpl > unittest_inject_queue
 	chmod 755 unittest_inject_queue
